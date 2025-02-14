@@ -74,7 +74,7 @@ export default defineConfig({
     {
       name: 'Google Chrome',
       use: {
-        ...devices['Desktop Chrome'], channel: 'chrome', viewport: {
+        ...devices['Desktop Chrome'], channel: 'chrome', executablePath: '/usr/bin/google-chrome-stable', viewport: {
           width: 1920,
           height: 953,
         },
