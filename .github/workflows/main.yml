@@ -8,7 +8,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: '0 9 * * *'
+    - cron: '0 9 * * *'  # Runs every day at 09:00 UTC
 
 jobs:
   test:
@@ -23,11 +23,33 @@ jobs:
       with:
         node-version: '16'
 
+    - name: Cache Node.js modules
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.npm
+          node_modules
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-modules-
+
     - name: Install dependencies
       run: |
         npm install
 
+    - name: Cache Playwright dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-playwright-
+
+    - name: Install Google Chrome
+      run: |
+        sudo apt update
+        sudo apt install google-chrome-stable
+
     - name: Run Playwright tests
       run: |
-        npx playwright install --with-deps
-        npx playwright test
+         npx playwright test --project=google-chrome
