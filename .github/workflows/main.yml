@@ -45,11 +45,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-playwright-
 
-    - name: Install Google Chrome
-      run: |
-        sudo apt update
-        sudo apt install google-chrome-stable
-
     - name: Run Playwright tests
       run: |
-         npx playwright test --project=google-chrome || exit 1
+         npx playwright test || exit 1
