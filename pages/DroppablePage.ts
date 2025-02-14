@@ -28,6 +28,7 @@ export class DroppablePage {
         await this.dropHere.waitFor();
 
         await this.dragMe.dragTo(this.dropHere);
+        await this.dropped.waitFor();
         await expect(this.dropped).toHaveText('Dropped!');
     }
 }
